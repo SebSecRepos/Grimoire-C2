@@ -1,0 +1,375 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+  }
+  
+  .card-container {
+    padding: 50px 50px;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #212121;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 450px ;
+    align-items:center;
+    box-sizing: border-box;
+    width:50% ;
+    font-size: 12px;
+    overflow-y: scroll;
+  }
+  
+
+
+
+/* Actvie implants */
+  
+  .card {
+    padding: 40px 40px;
+    overflow-y:scroll;
+    background-color: #212121;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(26, 255, 0);
+    cursor: pointer;
+    width: 95%;
+    min-height: 200px;
+    box-sizing: border-box;
+  }
+  
+  .card p{
+    background-color: #212121;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    margin: 1px;
+  }
+  .card p span{
+    background-color: #212121;
+    color: #00ff00;
+  }
+  .card ul {
+    background-color: #212121;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: start;
+  }
+  
+  .card ul li {
+    background-color: #212121;
+    color: #ff3300;
+    list-style: none;
+  }
+  
+
+/* Inactvie implants */
+  
+ 
+.card-in {
+  box-sizing: border-box;
+  padding: 40px 40px;   /* margen superior real */
+  overflow-y: scroll;
+  background-color: #212121;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 !important;
+  border: 2px solid rgb(81, 81, 81);
+  cursor: pointer;
+  width: 95%;
+  min-height: 200px;
+}
+  
+  .card-in p{
+    background-color: #212121;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    margin: 1px;
+  }
+  .card-in p span{
+    background-color: #212121;
+    color: grey;
+  }
+  .card-in ul {
+    background-color: #212121;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: start;
+  }
+  
+  .card-in ul li {
+    background-color: #212121;
+    color: #ff3300;
+    list-style: none;
+  }
+  
+  
+
+  
+  .modify-service {
+    padding: 10px 20px;
+    background-color: green;
+    color: #00ff00;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-service {
+    padding: 10px 20px;
+    background-color: red;
+    color: #00ff00;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-content button:hover {
+    background-color: #374151;
+  }
+  
+
+
+
+
+  /*-------------------lista-------------------*/
+
+.list-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color:#212121;
+}
+
+.list-container .delete-impl{
+  background-color: #f56845;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 5px;
+}
+
+
+/* Actvie implants */
+
+    .list {
+
+    margin: 3px 0;
+    background-color: #212121;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid rgb(19, 195, 0);
+    cursor: pointer;
+    width: 100%;
+    padding-top: 20px;
+    max-height: 40px;
+    padding: 5px;
+    margin-left: 0px;
+  }
+  
+  .list:hover{
+    
+    border: 1px solid rgb(26, 255, 0);
+
+   }
+  
+  .list p{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    background-color: #212121;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 13px;
+    margin: 1px;
+  }
+  .list p span{
+    background-color: #212121;
+    color: white;
+  }
+  .list ul {
+    background-color: #212121;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  
+
+/* Inactvie implants */
+  
+ 
+  .list-in {
+
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 3px 0;
+    cursor: pointer;
+    width: 100%;
+    padding-top: 20px;
+    max-height: 40px;
+    padding: 3px;
+    background-color: #212121;
+  }
+  
+  .list-in p{
+    background-color:#212121;;
+    color: black;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin: 1px;
+  }
+  .list-in p span{
+    background-color: #212121;
+    color: grey;
+  }
+  .list-in ul {
+    background-color: #212121;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: start;
+  }
+  
+  .list-in ul li {
+    background-color: #212121;
+    color: #ff3300;
+    list-style: none;
+  }
+  
+  
+
+  
+  .modify-service {
+    padding: 10px 20px;
+    background-color: green;
+    color: #00ff00;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-service {
+    padding: 10px 20px;
+    background-color: red;
+    color: #00ff00;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-content button:hover {
+    background-color: #374151;
+  }
+  
+  .implant-logo{
+    color: greenyellow !important;
+    font-size: 30px !important;
+    background-color: transparent !important;
+  }
+  
+  .sys-op-icon{
+    color: greenyellow !important;
+    background-color: transparent !important;
+    font-size: 20px;
+  }
+
+
+  .root-indicator-t{
+    color: rgb(0, 255, 4) !important;
+  }
+  
+  
+  .root-indicator-f{
+    color: rgb(255, 0, 0) !important;
+  }
+
+
+
+    @media(max-width:1480px){
+    
+    .card-container{
+      width:95% !important;
+      max-height: 400px  !important;
+      padding: 50px 20px;
+      overflow-y: scroll;
+      margin-left: 0;
+    }
+
+  }
+
+  @media(max-width:870px){
+    .implants-desc p span{
+      font-size: 15px ;
+    }
+
+    .list p span{
+      font-size: 13px;
+    }
+    
+    .list-in p span{
+      
+      font-size: 13px;
+    }
+
+  }
+  
+  @media(max-width:700px){
+    
+    .card-container{
+      overflow-x: scroll !important;
+    }
+    
+  }
+
+  @media(max-width:630px){
+
+
+    .list p span{
+      font-size: 11px;
+    }
+    
+    .list-in p span{
+      
+      font-size: 11px;
+    }
+
+  }
+
+  @media(max-width:520px){
+
+
+    .list p span{
+      font-size: 8px;
+    }
+    
+    .list-in p span{
+      
+      font-size: 8px;
+    }
+
+  }

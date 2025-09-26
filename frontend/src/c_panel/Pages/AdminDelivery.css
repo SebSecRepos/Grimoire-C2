@@ -1,0 +1,201 @@
+
+.delivery-register-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color:transparent;
+  border-radius: 10px;
+  height: 100% !important;
+}
+
+.delivery-form-section {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex: 1;
+  background-color:black;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.delivery-files-container{
+  margin: 0.5%;
+  min-width: 40%;
+  max-height: 400px;
+  padding: 20px;
+  list-style: none;
+  overflow-y: scroll;
+  border: 3px solid rgb(144, 144, 144);
+  border-style: dashed;
+  border-radius: 10px;
+}
+
+.delivery-register-container h3 {
+  background-color:transparent;
+
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.delivery-register-container h4{
+  background-color:transparent;
+
+  font-size: 30px;
+  color: #11ff00;
+}
+.delivery-register-container p{
+  background-color:transparent;
+  font-size: 18px;
+  color: #e6e6e6;
+}
+
+.delivery-form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bucket-upload-btn {
+    background-color:rgb(0, 191, 45);
+    color: white;
+    border: none;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease;
+}
+
+.create-bucket-btn {
+    background-color:rgb(238, 255, 0);
+    color: rgb(0, 0, 0);
+    border: none;
+    margin: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease;
+}
+
+.delivery-form input[type="button"]:hover {
+    background-color:rgb(26, 255, 0);
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.delivery-artifact-list {
+  padding: 20px;
+  margin: 0.5%;
+  width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.delivery-artifact-list h4 {
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.delivery-artifact-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.delivery-artifact-list li div {
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.5rem;
+  background-color:rgb(62, 62, 62);
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delivery-artifact-list li div:hover {
+  background-color:rgb(170, 170, 170);
+}
+
+.delivery-create-user-btn{
+    color: black !important;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.delivery-selected-user{
+  background-color: rgb(55, 155, 5) !important;
+}
+
+.art-file-li{
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+  margin: 2px 0;
+  padding: 2px;
+  border-radius: 5px;
+}
+.art-file-li *{
+  color: black;
+}
+
+.li-bucket{
+  display: flex;
+  margin: 5px;
+}
+.div-bucket{
+  min-width: 200px !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.delivery-delete-art{
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    max-height: 40px;
+    background-color:rgb(243, 104, 89);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+
+@media(max-width: 930px){
+  .delivery-form-section{
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  .delivery-files-container{
+    min-height: 200px;
+    padding: 20px 30px;
+  }
+
+  .delivery-artifact-list{
+    border: 2px solid rgb(61, 61, 61);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .li-bucket{
+    width: auto;
+    justify-content: center;
+  }
+  
+  .div-bucket{
+    width: 60%;
+
+  }
+}

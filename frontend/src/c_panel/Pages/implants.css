@@ -1,0 +1,92 @@
+
+/*Navbar de implantes*/
+
+
+.filter-container {
+  color: white;
+  max-width: 90%;
+  border: 2px solid rgb(48, 48, 48);
+  border-radius: 10px;
+  background-color: #1d1d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.filter-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.filter-controls {
+  background-color: #1d1d1d;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  color: white;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+
+
+.client-empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+/*Contenedor implantes e events*/
+
+
+.implant-container{
+  background: transparent !important;
+  overflow-y: scroll;
+}
+
+.c2c-status{  
+  display: flex;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  padding: 240px 0;
+  margin: 100px 0 !important;
+}
+
+.implants-desc {
+  width:100% ;
+  background-color: #212121;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgb(56, 56, 56);
+
+}
+
+.implants-desc p, .implants-desc span{
+  background-color: #212121;
+  font-size: 20px;
+  color: rgb(0, 255, 13);
+}
+
+@media(max-width: 1500px){
+  .implant-container{
+    height: 200vh;
+    overflow-y: scroll;
+    box-sizing: border-box;
+  }
+}

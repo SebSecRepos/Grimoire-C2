@@ -1,0 +1,52 @@
+.floating-box-explorer {
+  position: fixed;      /* fuera del flujo del DOM y fijo en la pantalla */
+  top: 10px;           /* distancia desde la parte superior */
+  left: 100px;          /* distancia desde la izquierda */
+  z-index: 9999;        /* asegúrate de que esté por encima de otros elementos */
+  background: rgb(0, 0, 0);
+  border: 1px solid #ccc;
+  padding: 25px 25px 25px 30px;
+  width: 100vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  height: 500px;
+  overflow: scroll;
+}
+
+.floating-box-explorer h2{
+  margin: 10px 0;
+  color: white;
+}
+
+
+.directory-list{
+  list-style:none;
+  margin-left: -20px;
+}
+
+.directory-list li {
+  cursor: pointer;
+  margin: 5px 0px;
+  color: white;
+}
+
+.directory-list li:hover{
+  color: greenyellow;
+}
+
+
+
+@media(max-width: 838px){
+  .floating-box-explorer{
+    left: 0;
+    min-width: 350px;
+    max-width: 350px;
+    width: auto;
+  }
+  
+  .directory-list{
+    min-width: 500px;
+    max-width: 500px;
+    overflow-x: scroll;
+  }
+}
