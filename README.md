@@ -1,8 +1,7 @@
-------
 
 # Grimoire C2
 
-<img width="512" height="512" alt="logo" src="https://github.com/user-attachments/assets/fb7a3d3b-0513-4764-807a-647338a15c12" />
+<img width="1512" height="1000" alt="logo" src="https://github.com/user-attachments/assets/fb7a3d3b-0513-4764-807a-647338a15c12" />
 
 > Grimoire is a Command and Control (C2) management platform with a React frontend and a Node.js backend. The frontend provides a dashboard for monitoring and managing "implants", including real-time updates via WebSockets, filtering, and event logs. The backend handles authentication, implant communication, and data storage using MongoDB as the database engine.
 
@@ -26,6 +25,7 @@
 - Public buckets to upload and deliver content.
 - Staged implants (Only for Windows).
 - Custom commands and operations.
+- Only x64 implants available for now
 
   
 
