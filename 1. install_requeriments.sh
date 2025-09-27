@@ -8,7 +8,7 @@ fi
 
 sudo apt update -y && sudo apt upgrade -y
 
-sudo apt install python3 python3-pip git net-tools moreutils zip -y
+sudo apt install python3 python3-pip git net-tools moreutils zip git -y
 
 sudo apt-get install nodejs npm -y 
 
