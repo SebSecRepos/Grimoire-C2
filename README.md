@@ -23,7 +23,7 @@
 - Agent session authorized by session keys.
 - Users and roles.
 - Public buckets to upload and deliver content.
-- Staged implants (Only for Windows).
+- Staged implants (Only for Windows and need manually compiled).
 - Custom commands and operations.
 - Only x64 implants available for now
 
