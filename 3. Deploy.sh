@@ -22,7 +22,8 @@ echo -n -e "\n[+] Please insert your c2c public URL http:// or https:// + (domai
 read url
 echo -n -e "VITE_API_TEAM_SERVER_BUCKETS=${url}:80\n" >> ./.env
 
+mkdir -p ../backend/client/dist 2>/dev/null
+
 /usr/bin/npm run build
 
-mkdir -p ../backend/client/dist
 cp -r ./dist  ../backend/client/dist
