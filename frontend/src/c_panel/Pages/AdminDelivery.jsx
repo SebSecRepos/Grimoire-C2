@@ -34,10 +34,13 @@ export const AdminDelivery = () => {
 
       const data = await res.json();
 
-      setArtifacts(data.files);
 
-
-
+      if (!data.ok) {
+        toast.error("Error fetching files");
+        return;
+      }else{
+        setArtifacts(data.items);
+      }
     } catch (error) {
       toast.error("Error fetching files");
     }
@@ -284,9 +287,7 @@ export const AdminDelivery = () => {
                       <input className="file-upload " type="file" onChange={(e) => setFile(e.target.files[0])} />
                       <button className="bucket-upload-btn" onClick={handleUpload}>Upload file</button>
                     </div>
-                    <div className="delivery-edit-btns">
-                      <button className='create-bucket-btn' onClick={handleCreateBucket}>Create bucket</button>
-                    </div>
+
                   </>
                 }
 
@@ -347,6 +348,9 @@ export const AdminDelivery = () => {
 
               }
             </ul>
+          }
+          {user?.role === "admin" &&
+            <button className='create-bucket-btn' onClick={handleCreateBucket}>Create bucket</button>
           }
         </div>
 
