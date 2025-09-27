@@ -26,4 +26,4 @@ mkdir -p ../backend/client/dist 2>/dev/null
 
 /usr/bin/npm run build
 
-cp -r ./dist  ../backend/client/dist
+cp -r ./dist  ../backend/client/
