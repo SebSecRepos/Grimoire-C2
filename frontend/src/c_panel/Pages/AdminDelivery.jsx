@@ -34,17 +34,13 @@ export const AdminDelivery = () => {
 
       const data = await res.json();
 
-
-      if (!data.ok) {
-        toast.error("Error fetching files");
-        return;
-      }else{
-        setArtifacts(data.files);
-      }
+      setArtifacts(data.files);
     } catch (error) {
-      toast.error("Error fetching files");
+      if (page) {
+        toast.error("Error fetching files");
+      }
+      setArtifacts([]);
     }
-
   };
 
   const fetchBuckets = async () => {
@@ -62,7 +58,6 @@ export const AdminDelivery = () => {
       }
 
       if (!data.items || data.items.length < 1) {
-        toast.error("No files found.");
         return;
       }
       setBuckets(data.items);
@@ -70,8 +65,6 @@ export const AdminDelivery = () => {
     } catch (error) {
       toast.error("Error fetching buckets.")
     }
-
-
   };
 
 
@@ -213,9 +206,6 @@ export const AdminDelivery = () => {
       toast.error(response.error);
       setOnSending(false);
     }
-
-
-
   }
   const delete_bucket = async () => {
 
@@ -233,10 +223,16 @@ export const AdminDelivery = () => {
 
       const response = await res.json();
       if (response.ok) {
-        toast.success("Bucket deleted");
+        
+        toast.success("Bucket deleted.");
         setTimeout(() => {
-          fetchArtifacts();
-          fetchBuckets();
+          if (buckets.length > 1) {
+            fetchBuckets();
+          }else{
+            setBuckets([]);
+            setPage(undefined);
+            setArtifacts([]);
+          }
           setOnSending(false);
         }, 1000)
 
