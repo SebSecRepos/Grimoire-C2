@@ -13,7 +13,7 @@ cd ../frontend/
 npm install
 npm audit fix 2>/dev/null
 
-
+echo "" >  ./.env
 
 echo -n -e "VITE_API_TEAM_SERVER=http://localhost:4000\n" >> ./.env
 echo -n -e "VITE_API_WS_URL=ws://localhost:4000\n" >> ./.env
@@ -24,4 +24,5 @@ echo -n -e "VITE_API_TEAM_SERVER_BUCKETS=${url}:80\n" >> ./.env
 
 /usr/bin/npm run build
 
+mkdir -p ../backend/client/dist
 cp -r ./dist  ../backend/client/dist
