@@ -151,6 +151,7 @@ export const AdminUsers = () => {
     } else {
       await startRegister(data);
       fetchUsers();
+      setOnSending(false);
     }
 
 
