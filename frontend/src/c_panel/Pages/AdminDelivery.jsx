@@ -39,7 +39,7 @@ export const AdminDelivery = () => {
         toast.error("Error fetching files");
         return;
       }else{
-        setArtifacts(data.items);
+        setArtifacts(data.files);
       }
     } catch (error) {
       toast.error("Error fetching files");
