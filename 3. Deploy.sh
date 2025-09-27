@@ -24,4 +24,4 @@ echo -n -e "VITE_API_TEAM_SERVER_BUCKETS=${url}:80\n" >> ./.env
 
 /usr/bin/npm run build
 
-cp -r ./dist  ../backend/client/
+cp -r ./dist  ../backend/client/dist
