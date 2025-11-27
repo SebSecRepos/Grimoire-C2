@@ -115,7 +115,7 @@ ssh -L 4000:localhost:4000 <vm_user>@<c2_server> -p 22
 
 -----
 
-## Database User Interface Access (MongoDB Compass)
+## Database user interface access (MongoDB Compass)
 
 > Before connecting, you must port forward the MongoDB service running on port 27017:
 
