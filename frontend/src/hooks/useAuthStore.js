@@ -25,7 +25,7 @@ export const useAuthStore = () =>{
                         dispatch( clearErrorMessage() )
                     },10)
                 } else {
-                    Cookies.set('x-token', resp.jwt, { expires: 14 }); 
+                    Cookies.set('x-token', resp.jwt, { sameSite: 'strict', expires: 14 }); 
                     dispatch( onLogin(resp.data) );
                 }
                 
@@ -91,7 +91,7 @@ export const useAuthStore = () =>{
                     dispatch( clearErrorMessage() )
                 },10)
             } else {
-                Cookies.set('x-token', result.jwt, { expires: 14 }); 
+                Cookies.set('x-token', result.jwt, { sameSite: 'strict', expires: 14 }); 
                 dispatch( onLogin(result.data) );
             }
 
